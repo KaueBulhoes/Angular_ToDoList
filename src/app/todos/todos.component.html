@@ -7,23 +7,37 @@
 <div class="container">
     <div class="add-todo-box">
 
-        <form>
+        <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
             <h2 class="title is-5">New Todo</h2>
 
-            <div class="field is-grouped">
+            <div class="field is-grouped my-0" style="margin: 0">
+                <input ngModel #todoTextField="ngModel" required minlength="2" name="text" class="input" type="text"
+                    placeholder="Type todo text here...">
                 <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Type todo text here...">
                 </p>
                 <p class="control">
                     <button class="button alt-gradient-button">
-                        <span class="material-symbols-outlined">
-                            add
-                        </span>
+                        <span class="material-symbols-outlined">add</span>
                         Add
                     </button>
                 </p>
+            </div>
+            <div *ngIf="todoTextField.invalid && showValidationErrors">
+                <p class="help is-danger" *ngIf="todoTextField.errors?.['required']">Please enter your todo text</p>
+                <p class="help is-danger" *ngIf="todoTextField.errors?.['minlength']">Todo text must be at least 2
+                    chracters</p>
             </div>
         </form>
 
     </div>
 </div>
+
+<section class="section">
+    <div class="container">
+
+        <div class="todos-list">
+            
+            <app-todo-item *ngFor="let todo of todos" [todo]="todo"></app-todo-item>
+        </div>
+    </div>
+</section>
