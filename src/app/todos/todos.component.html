@@ -37,7 +37,12 @@
 
         <div class="todos-list">
             
-            <app-todo-item *ngFor="let todo of todos" [todo]="todo"></app-todo-item>
+            <app-todo-item 
+                *ngFor="let todo of todos" 
+                [todo]="todo" 
+                (todoClicked)="toogleCompleted(todo)"
+                (editClicked)="editTodo(todo)"
+            ></app-todo-item>
         </div>
     </div>
 </section>

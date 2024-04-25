@@ -1,4 +1,4 @@
-<div class="todo-item" *ngIf="todo" [class.completed]="todo.completed">
+<div class="todo-item" (click)="onTodoClicked()" *ngIf="todo" [class.completed]="todo.completed">
     <div class="check-box">
         <span class="material-symbols-outlined">check</span>
     </div>
@@ -7,12 +7,13 @@
         {{ todo.text }}
     </div>
 
-    <div class="todo-controls-box">
-        <div class="todo-control-button">
+    <div class="todo-controls-box" (click)="$event.stopPropagation()">
+        <div class="todo-control-button" (click)="onEditClicked()">
             <span class="material-symbols-outlined">edit</span>
         </div>
         <div class="todo-control-button is-danger">
             <span class="material-symbols-outlined">delete</span>
         </div>
     </div>
+
 </div>

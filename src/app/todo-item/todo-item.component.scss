@@ -29,7 +29,7 @@
     height: 28px;
     width: 28px;
 
-    transition: background-color .2s;
+    transition: background-color .2s border-color .2s;
 
     span.material-symbols-outlined {
         font-size: 20px;
@@ -109,6 +109,6 @@
     }
 }
 
-.todo-controls-box .todo-control-button.is-danger:active .material-symbols-outlined{
-    color: rgb(155,27,27);
+.todo-controls-box .todo-control-button.is-danger:hover .material-symbols-outlined{
+    color: rgb(255, 2, 2);
 }
