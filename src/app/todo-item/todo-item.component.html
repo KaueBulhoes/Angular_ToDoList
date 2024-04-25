@@ -8,10 +8,10 @@
     </div>
 
     <div class="todo-controls-box" (click)="$event.stopPropagation()">
-        <div class="todo-control-button" (click)="onEditClicked()">
+        <div class="todo-control-button" #editBtn (click)="onEditClicked()">
             <span class="material-symbols-outlined">edit</span>
         </div>
-        <div class="todo-control-button is-danger">
+        <div class="todo-control-button is-danger" #deleteBtn (click)="onDeleteClicked()">
             <span class="material-symbols-outlined">delete</span>
         </div>
     </div>

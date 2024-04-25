@@ -58,6 +58,12 @@ export class TodosComponent implements OnInit {
       })
     }
   }
-  
+
+  deleteClicked(todo: Todo) {
+    const index = this.todos?.indexOf(todo);
+    if (index !== undefined && index !== -1) {
+      this.dataService.deleteTodo(index);
+    } return
+  }
 
 }
