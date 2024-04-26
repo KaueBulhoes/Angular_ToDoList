@@ -4,35 +4,40 @@ import { Todo } from './todo.model';
 @Injectable({
   providedIn: 'root'
 })
-
 export class DataService {
 
-  todos: Todo[] = [
-    new Todo('this is a test!', true),
-    new Todo('lorem ')
-  ]
+  todos: Todo[] = [];
 
-  constructor() { }
+  constructor() {
+    // Recupera a lista de todos do armazenamento local ao inicializar o serviço
+    const storedTodos = localStorage.getItem("todoList");
+    this.todos = storedTodos ? JSON.parse(storedTodos) : [];
+  }
 
-  getAllTodos() {
+  getAllTodos(): Todo[] {
     return this.todos;
   }
 
-  addTodo(todo: Todo) {
-    this.todos?.push(todo);
+  addTodo(todo: Todo): void {
+    this.todos.push(todo);
+    this.updateLocalStorage();
   }
 
-  updateTodo(index: number, updatedTodo: Todo) {
-    if (this.todos && index >= 0 && index < this.todos.length) {
+  updateTodo(index: number, updatedTodo: Todo): void {
+    if (index >= 0 && index < this.todos.length) {
       this.todos[index] = updatedTodo;
-    } else {
-      console.error('Index out of bounds or todos is null.');
+      this.updateLocalStorage();
     }
   }
 
-
-  deleteTodo(index: number) {
-    this.todos?.splice(index, 1);
+  deleteTodo(index: number): void {
+    if (index >= 0 && index < this.todos.length) {
+      this.todos.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
 
+  private updateLocalStorage(): void {
+    localStorage.setItem("todoList", JSON.stringify(this.todos));
+  }
 }
