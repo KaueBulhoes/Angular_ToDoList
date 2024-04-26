@@ -9,9 +9,12 @@ export class DataService {
   todos: Todo[] = [];
 
   constructor() {
-    // Recupera a lista de todos do armazenamento local ao inicializar o serviço
-    const storedTodos = localStorage.getItem("todoList");
-    this.todos = storedTodos ? JSON.parse(storedTodos) : [];
+    // Verifica se o código está sendo executado no ambiente do navegador antes de acessar o localStorage
+    if (typeof window !== 'undefined') {
+      // Recupera a lista de todos do armazenamento local ao inicializar o serviço
+      const storedTodos = localStorage.getItem("todoList");
+      this.todos = storedTodos ? JSON.parse(storedTodos) : [];
+    }
   }
 
   getAllTodos(): Todo[] {
