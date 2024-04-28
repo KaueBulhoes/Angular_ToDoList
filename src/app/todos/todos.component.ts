@@ -16,13 +16,17 @@ import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.co
 })
 export class TodosComponent implements OnInit {
 
-  todos?: Todo[]
+  todos: Todo[] = [];
   showValidationErrors?: boolean;
 
   constructor(private dataService: DataService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.todos = this.dataService.getAllTodos()
+  ngOnInit() {
+    this.loadTodos();
+  }
+
+  async loadTodos() {
+    this.todos = await this.dataService.getAllTodos();
   }
 
   onFormSubmit(form: NgForm) {
@@ -30,40 +34,32 @@ export class TodosComponent implements OnInit {
       this.showValidationErrors = true;
       return;
     }
-    
-    this.dataService.addTodo(new Todo(form.value.text));
 
-    this.showValidationErrors = false
-
-    form.reset()
+    this.dataService.addTodo(form.value.text);
+    this.showValidationErrors = false;
+    form.reset();
   }
-  
-  toogleCompleted(todo: Todo){
+
+  toggleCompleted(todo: Todo) {
     todo.completed = !todo.completed;
+    this.dataService.updateTodo(todo.id, todo);
   }
-  
-  editTodo(todo: Todo){
-    const index = this.todos?.indexOf(todo);
-  
-    if (index !== undefined && index !== -1) { 
-      let dialogRef = this.dialog.open(EditTodoDialogComponent, {
-        width: '700px',
-        data: todo
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.dataService.updateTodo(index, result)
-        }
-      })
-    }
+
+  editTodo(todo: Todo) {
+    const dialogRef = this.dialog.open(EditTodoDialogComponent, {
+      width: '700px',
+      data: todo
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataService.updateTodo(result.id, result);
+      }
+    });
   }
 
   deleteClicked(todo: Todo) {
-    const index = this.todos?.indexOf(todo);
-    if (index !== undefined && index !== -1) {
-      this.dataService.deleteTodo(index);
-    } return
+    this.dataService.deleteTodo(todo.id);
   }
 
 }
