@@ -1,17 +1,17 @@
 generator client {
   provider = "prisma-client-js"
+  output          = "./node_modules/@prisma/client"
+  browser         = true
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-// arquivo: schema.prisma
-
 // Definição do modelo Todo
 model Todo {
-  id        String    @id // Define o campo 'id' como identificador único
+  id        Int @id @default(autoincrement()) // Define o campo 'id' como identificador único
   text     String    // Título da tarefa
   completed Boolean    // Indica se a tarefa está completa ou não
 }
