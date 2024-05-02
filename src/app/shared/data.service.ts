@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Todo } from './todo.model';
 import { PrismaClient } from '@prisma/client';
-import prisma from '../../../prisma/prisma';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +9,7 @@ import prisma from '../../../prisma/prisma';
 export class DataService{
 
   todos: Todo[] = [];
-
-  private prisma: PrismaClient;
+  prisma: PrismaClient;
 
   constructor() {   
     this.prisma = new PrismaClient();
