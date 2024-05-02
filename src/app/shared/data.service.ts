@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Todo } from './todo.model';
-import prisma from '../../../prisma/prisma';
 
 @Injectable({
   providedIn: 'root'
