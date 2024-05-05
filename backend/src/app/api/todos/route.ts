@@ -1,4 +1,4 @@
-import client from '../../../../prisma/client';
+import client from '../../../lib/prisma/client';
 import { Todo } from '@prisma/client';
 import { NextResponse, NextRequest } from 'next/server';
 
