@@ -6,11 +6,13 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-todos',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule, TodoItemComponent, MatDialogModule],
+  imports: [NgIf, NgFor, FormsModule, TodoItemComponent, MatDialogModule, HttpClientModule],
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.scss'
 })
@@ -22,7 +24,19 @@ export class TodosComponent implements OnInit {
   constructor(private dataService: DataService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.todos = this.dataService.getAllTodos()
+    this.loadTodos();
+    // this.todos = this.dataService.getAllTodos()
+  }
+
+  loadTodos() {
+    this.dataService.getAllTodos().subscribe(
+      todos => {
+        this.todos = todos;
+      },
+      error => {
+        console.error('Erro ao carregar todos:', error);
+      }
+    );
   }
 
   onFormSubmit(form: NgForm) {
