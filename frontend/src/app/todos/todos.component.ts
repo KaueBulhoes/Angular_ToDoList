@@ -29,42 +29,52 @@ export class TodosComponent implements OnInit {
   }
 
   loadTodos() {
-    this.dataService.getAllTodos().subscribe(
-      todos => {
+    this.dataService.getAllTodos().subscribe({
+      next: (todos) => {
         this.todos = todos;
       },
-      error => {
+      error: (error) => {
         console.error('Erro ao carregar todos:', error);
       }
-    );
+    });
   }
 
   onFormSubmit(form: NgForm) {
-    if (form.invalid) {
-      this.showValidationErrors = true;
-      return;
+    if (form.valid) {
+      const newTodo: Todo = {
+        
+        text: form.value.text,
+        completed: false // Padrão para nova tarefa
+      };
+
+      this.dataService.addTodo(newTodo).subscribe({
+        next: (newTodo: Todo) => {
+          console.log('Tarefa adicionada com sucesso!', newTodo);
+          form.reset();
+        },
+        error: (error: any) => {
+          console.error('Erro ao adicionar tarefa:', error);
+        },
+        complete: () => {
+          console.log('Tarefa adicionada completamente'); // Optional
+        }
+      });
     }
-    
-    this.dataService.addTodo(new Todo(form.value.text));
-
-    this.showValidationErrors = false
-
-    form.reset()
   }
-  
-  toogleCompleted(todo: Todo){
+
+  toogleCompleted(todo: Todo) {
     todo.completed = !todo.completed;
   }
-  
-  editTodo(todo: Todo){
+
+  editTodo(todo: Todo) {
     const index = this.todos?.indexOf(todo);
-  
-    if (index !== undefined && index !== -1) { 
+
+    if (index !== undefined && index !== -1) {
       let dialogRef = this.dialog.open(EditTodoDialogComponent, {
         width: '700px',
         data: todo
       });
-  
+
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           this.dataService.updateTodo(index, result)

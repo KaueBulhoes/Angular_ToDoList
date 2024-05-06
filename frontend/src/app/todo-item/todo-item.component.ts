@@ -2,13 +2,12 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Todo } from '../shared/todo.model';
 import { FormsModule } from '@angular/forms';
-import { TodosComponent } from '../todos/todos.component';
 import tippy from 'tippy.js';
 
 @Component({
   selector: 'app-todo-item',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule, TodosComponent],
+  imports: [NgFor, NgIf, FormsModule],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss'
 })
@@ -24,23 +23,22 @@ export class TodoItemComponent implements OnInit, AfterViewInit{
   
   constructor(){}
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    if (this.editBtnElRef && this.editBtnElRef.nativeElement) {
-      tippy(this.editBtnElRef.nativeElement, {
-        content: 'Edit'
-      });
-    }
-    if (this.deleteBtnElRef && this.deleteBtnElRef.nativeElement) {
-      tippy(this.deleteBtnElRef.nativeElement, {
-        content: 'Delete'
-      });
-    }
+    // if (document) {
+    //   if (this.editBtnElRef && this.editBtnElRef.nativeElement) {
+    //     tippy(this.editBtnElRef.nativeElement, {
+    //       content: 'Edit'
+    //     });
+    //   }
+    //   if (this.deleteBtnElRef && this.deleteBtnElRef.nativeElement) {
+    //     tippy(this.deleteBtnElRef.nativeElement, {
+    //       content: 'Delete'
+    //     });
+    //   }
+    // }
   }
-  
 
   onTodoClicked(){
     this.todoClicked.emit();

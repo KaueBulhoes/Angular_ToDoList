@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Todo } from './todo.model';
 
@@ -35,7 +35,9 @@ export class DataService {
   // }
 
   addTodo(todo: Todo): Observable<Todo> {
-    return this.http.post<Todo>(this.apiUrl, todo);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Todo>('/api/todos', todo, { headers });
+    // return this.http.post<Todo>(this.apiUrl, todo);
   }
 
   // updateTodo(index: number, updatedTodo: Todo): void {
