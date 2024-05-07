@@ -36,7 +36,7 @@ export class DataService {
 
   addTodo(todo: Todo): Observable<Todo> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Todo>('/api/todos', todo, { headers });
+    return this.http.post<Todo>(this.apiUrl, todo, { headers });
     // return this.http.post<Todo>(this.apiUrl, todo);
   }
 

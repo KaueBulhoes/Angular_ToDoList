@@ -40,26 +40,17 @@ export class TodosComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
-    if (form.valid) {
+    // if (form.valid) {
       const newTodo: Todo = {
         
         text: form.value.text,
         completed: false // Padrão para nova tarefa
       };
 
-      this.dataService.addTodo(newTodo).subscribe({
-        next: (newTodo: Todo) => {
-          console.log('Tarefa adicionada com sucesso!', newTodo);
-          form.reset();
-        },
-        error: (error: any) => {
-          console.error('Erro ao adicionar tarefa:', error);
-        },
-        complete: () => {
-          console.log('Tarefa adicionada completamente'); // Optional
-        }
-      });
-    }
+      this.dataService
+        .addTodo(newTodo)
+        .subscribe(todo => this.todos?.push(todo));
+    // }
   }
 
   toogleCompleted(todo: Todo) {
