@@ -42,15 +42,15 @@ export class TodosComponent implements OnInit {
 
   onFormSubmit(form: NgForm) {
     // if (form.valid) {
-      const newTodo: Todo = {
-        id: uuidv4(),
-        text: form.value.text,
-        completed: false // Padrão para nova tarefa
-      };
+    const newTodo: Todo = {
+      id: uuidv4(),
+      text: form.value.text,
+      completed: false // Padrão para nova tarefa
+    };
 
-      this.dataService
-        .addTodo(newTodo)
-        .subscribe(todo => this.todos?.push(todo));
+    this.dataService
+      .addTodo(newTodo)
+      .subscribe(todo => this.todos?.push(todo));
     // }
     form.reset();
   }
@@ -77,12 +77,17 @@ export class TodosComponent implements OnInit {
   }
 
   deleteClicked(todo: Todo) {
+
+    const index = this.todos?.indexOf(todo);
     
-    this.dataService.deleteTodo(todo.id)
-    .subscribe({
-      next: () => {this.todos = this.todos?.filter(t => t.id !== todo.id);}
-    });
-    
+    if (index !== undefined && index !== -1) {
+      this.dataService.deleteTodo(todo.id).subscribe({
+        next: () => {
+          this.todos?.splice(index, 1);
+        },
+      });
+    }
+
     // const index = this.todos?.indexOf(todo);
     // if (index !== undefined && index !== -1) {
     //   this.dataService
