@@ -59,9 +59,10 @@ export class DataService {
   //   }
   // }
 
-  deleteTodo(id: number): Observable<any> {
+  deleteTodo(id: string): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(url, { headers });
   }
 
   // private updateLocalStorage(): void {

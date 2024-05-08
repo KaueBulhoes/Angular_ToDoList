@@ -11,7 +11,7 @@ export async function GET(request: NextRequest, context: { params: FindById }) {
 	try {
 		const todo: Todo = await client.todo.findUniqueOrThrow({
 			where: {
-				id: Number(context.params.id),
+				id: String(context.params.id),
 			},
 		});
 
@@ -35,7 +35,7 @@ export async function PUT(request: NextRequest, context: { params: FindById }) {
 	try {
 		const updatedTodo: Todo = await client.todo.update({
 			where: {
-				id: Number(context.params.id),
+				id: String(context.params.id),
 			},
 			data: newTodoData,
 		});
@@ -61,7 +61,7 @@ export async function DELETE(
 	try {
 		await client.todo.delete({
 			where: {
-				id: Number(context.params.id),
+				id: String(context.params.id),
 			},
 		});
 

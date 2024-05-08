@@ -7,6 +7,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { v4 as uuidv4 } from 'uuid';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class TodosComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     // if (form.valid) {
       const newTodo: Todo = {
-        
+        id: uuidv4(),
         text: form.value.text,
         completed: false // Padrão para nova tarefa
       };
@@ -51,6 +52,7 @@ export class TodosComponent implements OnInit {
         .addTodo(newTodo)
         .subscribe(todo => this.todos?.push(todo));
     // }
+    form.reset();
   }
 
   toogleCompleted(todo: Todo) {
@@ -75,10 +77,18 @@ export class TodosComponent implements OnInit {
   }
 
   deleteClicked(todo: Todo) {
-    const index = this.todos?.indexOf(todo);
-    if (index !== undefined && index !== -1) {
-      this.dataService.deleteTodo(index);
-    } return
+    
+    this.dataService.deleteTodo(todo.id)
+    .subscribe({
+      next: () => {this.todos = this.todos?.filter(t => t.id !== todo.id);}
+    });
+    
+    // const index = this.todos?.indexOf(todo);
+    // if (index !== undefined && index !== -1) {
+    //   this.dataService
+    //   .deleteTodo(index)
+    //   .subscribe();
+    // } return
   }
 
 }
