@@ -68,9 +68,14 @@ export class TodosComponent implements OnInit {
         data: todo
       });
 
-      dialogRef.afterClosed().subscribe((result) => {
+      dialogRef.afterClosed().subscribe((result: Todo) => {
         if (result) {
-          this.dataService.updateTodo(index, result)
+          this.dataService.updateTodo(todo.id, result)
+            .subscribe({
+              next: (updateTodo) => {
+                this.todos?.splice(index, 1, updateTodo);
+              }
+            })
         }
       })
     }

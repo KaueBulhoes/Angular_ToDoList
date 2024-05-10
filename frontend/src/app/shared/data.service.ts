@@ -47,9 +47,10 @@ export class DataService {
   //   }
   // }
 
-  updateTodo(id: number, updatedTodo: Todo): Observable<Todo> {
+  updateTodo(id: string, updatedTodo: Todo): Observable<Todo> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.put<Todo>(url, updatedTodo);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<Todo>(url, updatedTodo, { headers });
   }
 
   // deleteTodo(index: number): void {
