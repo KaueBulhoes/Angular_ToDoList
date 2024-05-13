@@ -41,6 +41,11 @@ export class TodosComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
+    if(form.invalid){
+      this.showValidationErrors = true;
+      return;
+    }
+    
     if (form.valid) {
       // Crie um novo objeto Todo
       const newTodo: Todo = {
@@ -58,7 +63,7 @@ export class TodosComponent implements OnInit {
           console.error('Erro ao adicionar novo Todo:', error);
         }
       });
-  
+      this.showValidationErrors = false;
       form.reset();
     }
   }
