@@ -40,7 +40,7 @@
             <app-todo-item 
                 *ngFor="let todo of todos" 
                 [todo]="todo" 
-                (todoClicked)="toogleCompleted(todo)"
+                (todoClicked)="toggleCompleted(todo)"
                 (editClicked)="editTodo(todo)"
                 (deleteClicked)="deleteClicked(todo)"
             ></app-todo-item>

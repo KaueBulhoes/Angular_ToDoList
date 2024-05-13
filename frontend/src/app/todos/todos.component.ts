@@ -55,9 +55,33 @@ export class TodosComponent implements OnInit {
     form.reset();
   }
 
-  toogleCompleted(todo: Todo) {
+  toggleCompleted(todo: Todo) {
     todo.completed = !todo.completed;
+  
+    // Chama o service para atualizar o todo
+    this.dataService.updateTodo(todo.id, todo)
+      .subscribe({
+        next: (updatedTodo) => {
+          // Encontra o índice do todo na lista local, se necessário
+          const index = this.todos?.findIndex(t => t.id === updatedTodo.id);
+          // Atualiza o todo na lista local, se necessário
+          if (index !== undefined && index !== -1) {
+            // Usamos splice para substituir o todo antigo pelo atualizado
+            if (this.todos) {
+              this.todos.splice(index, 1, updatedTodo);
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar todo:', error);
+          // Reverte o valor de completed se houver um erro
+          todo.completed = !todo.completed;
+        }
+      });
   }
+  
+  
+  
 
   editTodo(todo: Todo) {
     const index = this.todos?.indexOf(todo);
