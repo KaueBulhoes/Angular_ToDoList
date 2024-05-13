@@ -41,18 +41,26 @@ export class TodosComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm) {
-    // if (form.valid) {
-    const newTodo: Todo = {
-      id: uuidv4(),
-      text: form.value.text,
-      completed: false // Padrão para nova tarefa
-    };
-
-    this.dataService
-      .addTodo(newTodo)
-      .subscribe(todo => this.todos?.push(todo));
-    // }
-    form.reset();
+    if (form.valid) {
+      // Crie um novo objeto Todo
+      const newTodo: Todo = {
+        id: uuidv4(),
+        text: form.value.text,
+        completed: false // Defina o padrão para nova tarefa como não completada
+      };
+  
+      // Chame a função addTodo do data.service para adicionar o novo Todo
+      this.dataService.addTodo(newTodo).subscribe({
+        next: (todo) => {
+          this.todos?.push(todo);
+        },
+        error: (error) => {
+          console.error('Erro ao adicionar novo Todo:', error);
+        }
+      });
+  
+      form.reset();
+    }
   }
 
   toggleCompleted(todo: Todo) {
